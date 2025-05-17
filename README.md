@@ -13,25 +13,83 @@ Desenvolver uma aplicação web funcional com foco no backend utilizando Django,
 
 ## Tecnologias utilizadas
 
+- Python 3.10+
 - Django 4.x
+
+## Requisitos do sistema
+
+- Python 3.10 ou superior
+- Virtualenv (recomendado)
 
 ## Como executar o projeto
 
-> Esta seção será atualizada assim que o projeto estiver com a base mínima funcional.  
-> Instruções de ambiente, dependências e execução ainda serão definidas.
+1. Clone o repositório:
+
+```bash
+git clone https://github.com/Kyutz/aluguel-carros-django.git
+cd aluguel-carros
+```
+
+2. Crie e ative o ambiente virtual:
+
+```bash
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+venv\Scripts\activate     # Windows
+```
+
+3. Instale as dependências:
+
+```bash
+pip install -r requirements.txt
+```
+
+4. Crie o banco de dados e aplique as migrações:
+
+```bash
+python manage.py migrate
+```
+
+5. Crie um superusuário para acessar o Django Admin:
+
+```bash
+python manage.py createsuperuser
+```
+
+6. Inicie o servidor local:
+
+```bash
+python manage.py runserver
+```
+
+7. Acesse o painel administrativo em:
+
+```
+http://127.0.0.1:8000/admin/
+```
 
 ## Estrutura do projeto
 
-> A estrutura final do projeto será definida ao longo do desenvolvimento.  
-> Abaixo está um exemplo ilustrativo que será atualizado futuramente:
-
 ```
-car-rental-system/
-├── aluguel/           # Projeto Django (placeholder)
-├── core/              # Aplicação principal (placeholder)
-├── manage.py
-├── requirements.txt
-└── README.md
+aluguel-carros-django/
+├── aluguel_carros/        # Diretório do projeto Django (configurações principais)
+│   ├── __init__.py
+│   ├── asgi.py
+│   ├── settings.py        # Configurações do Django
+│   ├── urls.py
+│   └── wsgi.py
+├── locadora/              # Aplicativo principal com os modelos
+│   ├── __init__.py
+│   ├── admin.py           # Registro dos modelos no admin
+│   ├── apps.py
+│   ├── models.py          # Definição das entidades
+│   ├── tests.py
+│   └── views.py
+│   └── ...
+├── db.sqlite3             # Banco de dados SQLite
+├── manage.py              # Script de gerenciamento do Django
+├── README.md              # Arquivo de documentação do projeto
+└── requirements.txt       # Dependências do projeto
 ```
 
 ## Regras de commit
