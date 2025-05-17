@@ -1,0 +1,43 @@
+erDiagram
+    CLIENTES {
+        int id_cliente PK
+        string nome
+        string email
+        string telefone
+        string endereco
+        string documento_identidade
+        int id_funcionario FK
+    }
+
+    CARROS {
+        int id_carro PK
+        string modelo
+        string marca
+        int ano
+        string placa
+        string cor
+        boolean disponibilidade
+    }
+
+    LOCACOES {
+        int id_locacao PK
+        int id_cliente FK
+        int id_carro FK
+        date data_inicio
+        date data_fim
+        decimal valor_total
+        string status
+    }
+
+    PAGAMENTOS {
+        int id_pagamento PK
+        int id_locacao FK
+        date data_pagamento
+        decimal valor_pago
+        string forma_pagamento
+        string status_pagamento
+    }
+
+    CLIENTES ||--o| LOCACOES: "faz"
+    CARROS ||--o| LOCACOES: "é alugado em"
+    LOCACOES ||--|{ PAGAMENTOS: "tem"
