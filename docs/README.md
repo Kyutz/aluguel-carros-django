@@ -4,7 +4,7 @@ Esta pasta contém os diagramas do modelo de dados do sistema de aluguel de carr
 
 ## Arquivos
 
-- `diagrama_aluguel_carros.pdf` — versão em PDF do diagrama.
+- `diagrama_aluguel_carros.png` — versão em png do diagrama.
 - `diagrama_aluguel_carros.mmd` — arquivo Mermaid com o código fonte do diagrama.
 
 ## Informações
