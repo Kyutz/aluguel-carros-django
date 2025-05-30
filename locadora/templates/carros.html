@@ -1,0 +1,25 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Carros Disponíveis - AlugaFácil</title>
+    <link rel="stylesheet" href="{% static 'mystyles.css' %}">
+</head>
+<body>
+    <div class="topnav">
+        <a href="{% url 'home' %}">Home</a> |
+        <a href="{% url 'carros' %}">Carros</a>
+    </div>
+    <h1>Carros Disponíveis para Aluguel</h1>
+    <ul>
+        {% for carro in carros %}
+        <li>
+            {{ carro.marca }} {{ carro.modelo }} - Ano: {{ carro.ano }} - Cor: {{ carro.cor }} - Placa: {{ carro.placa }} - {% if carro.disponibilidade %}Disponível{% else %}Indisponível{% endif %}
+        </li>
+        {% empty %}
+        <li>Nenhum carro disponível no momento.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
