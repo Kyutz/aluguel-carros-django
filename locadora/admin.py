@@ -38,7 +38,8 @@ class LocacaoAdmin(admin.ModelAdmin):
     list_display = ('cliente', 'carro', 'data_inicio', 'data_fim', 'status')
     list_filter = ('status',)
     search_fields = ('cliente__user__username', 'carro__modelo')
-
+    readonly_fields = ('valor_total',)
+    
 @admin.register(Pagamento)
 class PagamentoAdmin(admin.ModelAdmin):
     list_display = ('locacao', 'data_pagamento', 'valor_pago', 'forma_pagamento', 'status_pagamento')

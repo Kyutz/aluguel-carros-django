@@ -19,7 +19,7 @@ class Carro(models.Model):
     placa = models.CharField(max_length=20)
     cor = models.CharField(max_length=50)
     disponibilidade = models.BooleanField(default=True)
-
+    valor_diaria = models.DecimalField(max_digits=10, decimal_places=2, default=100.00)
     def __str__(self):
         return f"{self.marca} {self.modelo} ({self.placa})"
 
@@ -28,8 +28,13 @@ class Locacao(models.Model):
     carro = models.ForeignKey(Carro, on_delete=models.CASCADE)
     data_inicio = models.DateField()
     data_fim = models.DateField()
-    valor_total = models.DecimalField(max_digits=10, decimal_places=2)
+    valor_total = models.DecimalField(max_digits=10, decimal_places=2, blank=True)
     status = models.CharField(max_length=50)
+    
+    def save(self, *args, **kwargs):
+        dias = (self.data_fim - self.data_inicio).days + 1
+        self.valor_total = dias * self.carro.valor_diaria
+        super().save(*args, **kwargs)
 
     def __str__(self):
         return f"{self.cliente.nome} - {self.carro.modelo} ({self.data_inicio} a {self.data_fim})"
