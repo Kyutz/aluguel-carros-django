@@ -11,11 +11,15 @@
         <a href="{% url 'home' %}">Home</a> |
         <a href="{% url 'carros' %}">Carros</a>
     </div>
+    
     <h1>Carros Disponíveis para Aluguel</h1>
     <ul>
         {% for carro in carros %}
         <li>
-            {{ carro.marca }} {{ carro.modelo }} - Ano: {{ carro.ano }} - Cor: {{ carro.cor }} - Placa: {{ carro.placa }} - {% if carro.disponibilidade %}Disponível{% else %}Indisponível{% endif %}
+            <a href="{% url 'carro_detalhes' carro.id %}">
+                {{ carro.marca }} {{ carro.modelo }} - Ano: {{ carro.ano }} - Cor: {{ carro.cor }} - Placa: {{ carro.placa }} - 
+                {% if carro.disponibilidade %}Disponível{% else %}Indisponível{% endif %}
+            </a>
         </li>
         {% empty %}
         <li>Nenhum carro disponível no momento.</li>

@@ -1,4 +1,5 @@
 from django.http import HttpResponse
+from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
 from .models import Carro, Locacao  # importa o model
@@ -35,3 +36,11 @@ def cadastro(request):
     else:
         form = UserCreationForm()
     return render(request, 'cadastro.html', {'form': form})
+
+def carro_detalhes(request, id):
+    carro = get_object_or_404(Carro, id=id)
+    template = loader.get_template('carro_detalhes.html')
+    context = {
+        'carro': carro
+    }
+    return HttpResponse(template.render(context, request))
