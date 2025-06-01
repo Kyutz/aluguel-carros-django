@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+
+{% block titulo %}
+    AlugaFácil - Dashboard
+{% endblock %}
+
+{% block conteudo %}
+    <div class="mycard">
+        <h1>Dashboard</h1>
+        <div>
+            <canvas id="graficoNumVolumes"></canvas>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+    <script>
+        const ctx = document.getElementById('graficoNumVolumes').getContext('2d');
+
+        new Chart(ctx, {
+            type: 'bar',
+            data: {
+                labels: ['Carros Alugados', 'Carros Disponíveis', 'Clientes', 'Locações Ativas'],
+                datasets: [{
+                    label: 'Estatísticas',
+                    data: [
+                        {{ carros_alugados }},
+                        {{ carros_disponiveis }},
+                        {{ total_clientes }},
+                        {{ locacoes_ativas }}
+                    ],
+                    backgroundColor: [
+                        'rgba(75, 192, 192, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                        'rgba(255, 99, 132, 0.7)'
+                    ],
+                    borderColor: [
+                        'rgba(75, 192, 192, 1)',
+                        'rgba(54, 162, 235, 1)',
+                        'rgba(255, 206, 86, 1)',
+                        'rgba(255, 99, 132, 1)'
+                    ],
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
+{% endblock %}

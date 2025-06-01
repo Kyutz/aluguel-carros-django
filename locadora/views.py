@@ -2,7 +2,7 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
-from .models import Carro, Locacao  # importa o model
+from .models import Carro, Cliente, Locacao  # importa o model
 from django.contrib.auth.forms import UserCreationForm
 
 def home(request):
@@ -44,3 +44,17 @@ def carro_detalhes(request, id):
         'carro': carro
     }
     return HttpResponse(template.render(context, request))
+
+def dashboard(request):
+    carros_alugados = Locacao.objects.filter(status='ativo').count()
+    carros_disponiveis = Carro.objects.filter(disponibilidade=True).count()
+    total_clientes = Cliente.objects.count()
+    locacoes_ativas = Locacao.objects.filter(status='ativo').count()
+
+    context = {
+        'carros_alugados': carros_alugados,
+        'carros_disponiveis': carros_disponiveis,
+        'total_clientes': total_clientes,
+        'locacoes_ativas': locacoes_ativas,
+    }
+    return render(request, 'dashboard.html', context)
