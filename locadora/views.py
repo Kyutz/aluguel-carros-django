@@ -1,6 +1,7 @@
 from django.http import HttpResponse
+from django.shortcuts import render
 from django.template import loader
-from .models import Carro  # importa o model
+from .models import Carro, Locacao  # importa o model
 
 def home(request):
     template = loader.get_template('home.html')  
@@ -19,3 +20,7 @@ def carros(request):
     }
     
     return HttpResponse(template.render(context, request))
+
+def listar_locacoes(request):
+    locacoes = Locacao.objects.select_related('cliente', 'carro').all()
+    return render(request, 'locacoes.html', {'locacoes': locacoes})

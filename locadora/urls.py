@@ -1,8 +1,8 @@
 from django.urls import path
-from .views import home
-from locadora import views
+from .views import home, listar_locacoes, carros
 
 urlpatterns = [
     path('', home, name='home'),
-    path('carros/', views.carros, name='carros'),
+    path('carros/', carros, name='carros'),
+    path('locacoes/', listar_locacoes, name='listar_locacoes'),
 ]
