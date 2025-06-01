@@ -1,17 +1,9 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Carros Disponíveis - AlugaFácil</title>
-    <link rel="stylesheet" href="{% static 'mystyles.css' %}">
-</head>
-<body>
-    <div class="topnav">
-        <a href="{% url 'home' %}">Home</a> |
-        <a href="{% url 'carros' %}">Carros</a>
-    </div>
-    
+{% block titulo %}Carros Disponíveis - AlugaFácil{% endblock %}
+
+{% block conteudo %}
     <h1>Carros Disponíveis para Aluguel</h1>
     <ul>
         {% for carro in carros %}
@@ -25,5 +17,4 @@
         <li>Nenhum carro disponível no momento.</li>
         {% endfor %}
     </ul>
-</body>
-</html>
+{% endblock %}

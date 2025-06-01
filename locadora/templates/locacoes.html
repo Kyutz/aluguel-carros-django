@@ -1,18 +1,9 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Lista de Locações - AlugaFácil</title>
-    <link rel="stylesheet" href="{% static 'mystyles.css' %}">
-</head>
-<body>
-    <div class="topnav">
-        <a href="{% url 'home' %}">Home</a> |
-        <a href="{% url 'carros' %}">Carros</a> |
-        <a href="{% url 'listar_locacoes' %}">Locações</a>
-        </div>
+{% block titulo %}Lista de Locações - AlugaFácil{% endblock %}
 
+{% block conteudo %}
     <div class="content">
         <h2>Locações</h2>
         <table border="1">
@@ -42,8 +33,4 @@
             </tbody>
         </table>
     </div>
-
-    <footer>
-        </footer>
-</body>
-</html>
+{% endblock %}

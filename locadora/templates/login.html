@@ -1,18 +1,9 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Login - AlugaFácil</title>
-    <link rel="stylesheet" href="{% static 'mystyles.css' %}">
-</head>
-<body>
-    <div class="topnav">
-        <a href="{% url 'home' %}">Home</a> |
-        <a href="{% url 'carros' %}">Carros</a> |
-        <a href="{% url 'login' %}">Login</a>
-    </div>
+{% block titulo %}Login - AlugaFácil{% endblock %}
 
+{% block conteudo %}
     <h2>Login</h2>
     <form method="post">
         {% csrf_token %}
@@ -21,5 +12,4 @@
     </form>
 
     <p>Não tem uma conta? <a href="{% url 'cadastro' %}">Cadastre-se aqui</a></p>
-</body>
-</html>
+{% endblock %}

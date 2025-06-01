@@ -1,24 +1,11 @@
+{% extends "base.html" %}
 {% load static %}
 
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <title>AlugaFácil</title>
-    <link rel="stylesheet" href="{% static 'mystyles.css' %}">
-</head>
-<body>
-    <div class="topnav">
-        <a href="/">PRINCIPAL</a> |
-        <a href="/carros">CARROS</a> |
-        <a href="/locacoes">LOCAÇÕES</a> |
-        <a href="/pagamentos">PAGAMENTOS</a> |
-        <a href="/auth/login">LOGIN</a> |
-        <a href="/auth/cadastro">CADASTRE-SE</a>
-    </div>
+{% block titulo %}AlugaFácil{% endblock %}
+
+{% block conteudo %}
     <div class="main">
         <h1>Bem-vindo à AlugaFácil</h1>
         <img src="{% static 'logo-portal.png' %}" alt="logo-portal" width="400" height="300">
     </div>
-</body>
-</html>
+{% endblock %}
