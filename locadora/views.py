@@ -31,7 +31,7 @@ def cadastro(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('home')  # ou para 'home' se preferir
+            return redirect('login') 
     else:
         form = UserCreationForm()
     return render(request, 'cadastro.html', {'form': form})
