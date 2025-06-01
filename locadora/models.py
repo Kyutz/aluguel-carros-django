@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.db.models.signals import post_save
+from django.dispatch import receiver
 
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
@@ -48,3 +50,15 @@ class Pagamento(models.Model):
 
     def __str__(self):
         return f"Pagamento de {self.valor_pago} em {self.data_pagamento} - {self.status_pagamento}"
+
+@receiver(post_save, sender=User)
+def criar_cliente_automaticamente(sender, instance, created, **kwargs):
+    if created:
+        Cliente.objects.create(
+            user=instance,
+            nome=instance.username,
+            email=instance.email,
+            telefone="",
+            endereco="",
+            documento_identidade=""
+        )

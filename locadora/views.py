@@ -2,8 +2,11 @@ from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
-from .models import Carro, Cliente, Locacao  # importa o model
+from .models import Carro, Cliente, Locacao 
 from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from .form import LocacaoForm
 
 def home(request):
     template = loader.get_template('home.html')  
@@ -58,3 +61,22 @@ def dashboard(request):
         'locacoes_ativas': locacoes_ativas,
     }
     return render(request, 'dashboard.html', context)
+
+@login_required
+def alugar_carro(request):
+    if request.method == 'POST':
+        form = LocacaoForm(request.POST)
+        if form.is_valid():
+            locacao = form.save(commit=False)
+            locacao.cliente = Cliente.objects.get(user=request.user)
+            locacao.status = 'ativo'
+            locacao.save()
+            locacao.carro.disponibilidade = False
+            locacao.carro.save()
+            messages.success(request, 'Carro alugado com sucesso!')
+            return redirect('listar_locacoes')
+    else:
+        form = LocacaoForm()
+    
+    return render(request, 'alugar_carro.html', {'form': form})
+

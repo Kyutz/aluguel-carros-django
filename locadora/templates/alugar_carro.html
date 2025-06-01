@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block titulo %}Alugar Carro{% endblock %}
+
+{% block conteudo %}
+    <h1>Alugar Carro</h1>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Confirmar Aluguel</button>
+    </form>
+    <p><a href="{% url 'carros' %}">Voltar para lista de carros</a></p>
+{% endblock %}
