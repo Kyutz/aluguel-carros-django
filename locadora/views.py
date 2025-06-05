@@ -7,6 +7,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from .form import LocacaoForm
+from django.contrib.auth import logout as logout_django
 
 def home(request):
     template = loader.get_template('home.html')  
@@ -80,3 +81,6 @@ def alugar_carro(request):
     
     return render(request, 'alugar_carro.html', {'form': form})
 
+def logout(request):
+    logout_django(request)
+    return redirect('login')  # Ou HttpResponse se quiser mostrar mensagem
