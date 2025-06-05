@@ -53,7 +53,7 @@ class Pagamento(models.Model):
 
 @receiver(post_save, sender=User)
 def criar_cliente_automaticamente(sender, instance, created, **kwargs):
-    if created:
+    if created and not instance.is_superuser: 
         Cliente.objects.create(
             user=instance,
             nome=instance.username,
