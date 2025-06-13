@@ -24,8 +24,8 @@ class AnoFaixaFilter(admin.SimpleListFilter):
 
 @admin.register(Cliente)
 class ClienteAdmin(admin.ModelAdmin):
-    list_display = ('user', 'telefone', 'documento_identidade')
-    search_fields = ('user__username', 'documento_identidade')
+    list_display = ('user',)
+    search_fields = ('user__username',)
 
 @admin.register(Carro)
 class CarroAdmin(admin.ModelAdmin):

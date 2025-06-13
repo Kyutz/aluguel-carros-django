@@ -6,11 +6,7 @@ from django.dispatch import receiver
 class Cliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=255)
-    email = models.EmailField()
-    telefone = models.CharField(max_length=20)
-    endereco = models.CharField(max_length=255)
-    documento_identidade = models.CharField(max_length=50)
-
+    
     def __str__(self):
         return self.nome
 
@@ -57,8 +53,4 @@ def criar_cliente_automaticamente(sender, instance, created, **kwargs):
         Cliente.objects.create(
             user=instance,
             nome=instance.username,
-            email=instance.email,
-            telefone="",
-            endereco="",
-            documento_identidade=""
         )
