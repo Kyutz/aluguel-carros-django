@@ -6,6 +6,30 @@
 {% endblock %}
 
 {% block conteudo %}
+    <div class="mycard mb-4 text-center">
+        <img src="{% static 'img_avatar.png' %}" alt="AlugaFácil Logo" style="max-width: 150px; margin-bottom: 15px;">
+        <h2>Olá, {{ usuario }}</h2>
+        <p>{{ email }}</p>
+    </div>
+
+    <div class="mycard mb-4">
+        <h1>Estatísticas</h1>
+        <div class="row text-center">
+            <div class="col">
+                <h3>{{ carros_disponiveis }}</h3>
+                <p>Carros Disponíveis</p>
+            </div>
+            <div class="col">
+                <h3>{{ carros_alugados }}</h3>
+                <p>Carros Alugados</p>
+            </div>
+            <div class="col">
+                <h3>{{ locacoes_ativas }}</h3>
+                <p>Locações Ativas</p>
+            </div>
+        </div>
+    </div>
+
     <div class="mycard">
         <h1>Dashboard</h1>
         <div>
@@ -16,11 +40,10 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         const dadosDashboard = {
-            carrosAlugados: {{ carros_alugados }},
             carrosDisponiveis: {{ carros_disponiveis }},
-            totalClientes: {{ total_clientes }},
-            locacoesAtivas: {{ locacoes_ativas }}
+            carrosAlugados:    {{ carros_alugados }},
+            locacoesAtivas:    {{ locacoes_ativas }}
         };
     </script>
-    <script src="{% static 'myscripts.js' %}"></script>
+    <script src="{% static 'myscripts.js' %}?v=2"></script>
 {% endblock %}

@@ -68,17 +68,17 @@ def carro_detalhes(request, id):
     }
     return render(request, 'carro_detalhes.html', context)
 
+@login_required
 def dashboard(request):
-    carros_alugados = Locacao.objects.filter(status='ativo').count()
     carros_disponiveis = Carro.objects.filter(disponibilidade=True).count()
-    total_clientes = Cliente.objects.count()
-    locacoes_ativas = Locacao.objects.filter(status='ativo').count()
+    carros_alugados    = Locacao.objects.filter(cliente__user=request.user).count()
+    locacoes_ativas    = Locacao.objects.filter(cliente__user=request.user, status='ativo').count()
 
     context = {
-        'carros_alugados': carros_alugados,
+        'usuario':            request.user.username,
         'carros_disponiveis': carros_disponiveis,
-        'total_clientes': total_clientes,
-        'locacoes_ativas': locacoes_ativas,
+        'carros_alugados':    carros_alugados,
+        'locacoes_ativas':    locacoes_ativas,
     }
     return render(request, 'dashboard.html', context)
 
