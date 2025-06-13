@@ -41,13 +41,32 @@ def cadastro(request):
         form = UserCreationForm()
     return render(request, 'cadastro.html', {'form': form})
 
+@login_required
 def carro_detalhes(request, id):
     carro = get_object_or_404(Carro, id=id)
-    template = loader.get_template('carro_detalhes.html')
+
+    if request.method == 'POST':
+        form = LocacaoForm(request.POST)
+        if form.is_valid():
+            locacao = form.save(commit=False)
+            locacao.carro = carro
+            locacao.cliente = Cliente.objects.get(user=request.user)
+            locacao.status = 'ativo'
+            locacao.save()
+
+            carro.disponibilidade = False
+            carro.save()
+
+            messages.success(request, 'Carro alugado com sucesso!')
+            return redirect('listar_locacoes')
+    else:
+        form = LocacaoForm(initial={'carro': carro})
+
     context = {
-        'carro': carro
+        'carro': carro,
+        'form': form,
     }
-    return HttpResponse(template.render(context, request))
+    return render(request, 'carro_detalhes.html', context)
 
 def dashboard(request):
     carros_alugados = Locacao.objects.filter(status='ativo').count()

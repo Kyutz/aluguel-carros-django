@@ -1,27 +1,45 @@
 {% extends "base.html" %}
-{% load static %}
-
 {% block titulo %}Detalhes do Carro{% endblock %}
 
 {% block conteudo %}
-    <div class="mycard">
-        <h1>Detalhes do Carro</h1>
-        <p><strong>Marca:</strong> {{ carro.marca }}</p>
-        <p><strong>Modelo:</strong> {{ carro.modelo }}</p>
-        <p><strong>Ano:</strong> {{ carro.ano }}</p>
-        <p><strong>Cor:</strong> {{ carro.cor }}</p>
-        <p><strong>Placa:</strong> {{ carro.placa }}</p>
-        <p><strong>Valor da Diária:</strong> R$ {{ carro.valor_diaria }}</p>
-        <p><strong>Disponibilidade:</strong> 
-            {% if carro.disponibilidade %} Disponível 
-            {% else %} Indisponível 
-            {% endif %}
-        </p>
-        <a href="{% url 'alugar_carro' %}">Alugar um carro</a>
+<div class="mycard" style="border: 1px solid #ccc; padding: 15px; max-width: 400px; margin: auto;">
+    <h1>Detalhes do Carro</h1>
+    <p><strong>Marca:</strong> {{ carro.marca }}</p>
+    <p><strong>Modelo:</strong> {{ carro.modelo }}</p>
+    <p><strong>Ano:</strong> {{ carro.ano }}</p>
+    <p><strong>Cor:</strong> {{ carro.cor }}</p>
+    <p><strong>Placa:</strong> {{ carro.placa }}</p>
+    <p><strong>Valor da Diária:</strong> R$ {{ carro.valor_diaria }}</p>
+    <p><strong>Disponibilidade:</strong> {% if carro.disponibilidade %}Disponível{% else %}Indisponível{% endif %}</p>
 
-    </div>
+    {% if carro.disponibilidade %}
+        <button id="btn-alugar" class="btn btn-primary">Alugar um carro</button>
 
-    <p style="text-align: center;">
-        <a href="{% url 'carros' %}">Voltar para Carros</a>
-    </p>
+        <div id="form-aluguel" style="display:none; margin-top: 20px;">
+            <form method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <button type="submit" class="btn btn-success">Confirmar Aluguel</button>
+            </form>
+        </div>
+    {% else %}
+        <p>Este carro não está disponível para aluguel no momento.</p>
+    {% endif %}
+</div>
+
+<script>
+    const btnAlugar = document.getElementById('btn-alugar');
+    const formAluguel = document.getElementById('form-aluguel');
+
+    btnAlugar.addEventListener('click', () => {
+        if (formAluguel.style.display === 'none') {
+            formAluguel.style.display = 'block';
+            btnAlugar.style.display = 'none';
+        }
+    });
+</script>
+
+<p style="text-align: center;">
+    <a href="{% url 'carros' %}">Voltar para Carros</a>
+</p>
 {% endblock %}
