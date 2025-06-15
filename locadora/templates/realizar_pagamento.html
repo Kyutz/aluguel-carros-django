@@ -1,0 +1,23 @@
+{% extends "base.html" %}
+
+{% block titulo %}Realizar Pagamento{% endblock %}
+
+{% block conteudo %}
+<div class="mycard" style="border: 1px solid #ccc; padding: 15px; max-width: 400px; margin: auto;">
+    <h1>Confirmar Pagamento</h1>
+
+    <p><strong>Carro:</strong> {{ locacao.carro.marca }} {{ locacao.carro.modelo }}</p>
+    <p><strong>Período:</strong> {{ locacao.data_inicio|date:"d/m/Y" }} a {{ locacao.data_fim|date:"d/m/Y" }}</p>
+    <p><strong>Valor Total da Locação:</strong> R$ {{ valor_a_pagar }}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-success">Finalizar Pagamento</button>
+    </form>
+</div>
+
+<p style="text-align: center; margin-top: 20px;">
+    <a href="{% url 'listar_locacoes' %}">Voltar para Minhas Locações</a>
+</p>
+{% endblock %}

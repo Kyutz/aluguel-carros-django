@@ -13,4 +13,5 @@ urlpatterns = [
     path('dashboard/', views.dashboard, name='dashboard'),
     path('alugar/', views.alugar_carro, name='alugar_carro'),
     path('logout', views.logout, name='logout'),
+    path('pagamento/<int:locacao_id>/', views.realizar_pagamento, name='realizar_pagamento'), 
 ]

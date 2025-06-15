@@ -1,12 +1,14 @@
+from datetime import date
+from django.db import transaction
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
 from django.shortcuts import render, redirect
 from django.template import loader
-from .models import Carro, Cliente, Locacao 
+from .models import Carro, Cliente, Locacao, Pagamento 
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from .form import LocacaoForm
+from .form import LocacaoForm, PagamentoForm 
 from django.contrib.auth import logout as logout_django
 
 def home(request):
@@ -48,19 +50,26 @@ def carro_detalhes(request, id):
     if request.method == 'POST':
         form = LocacaoForm(request.POST)
         if form.is_valid():
-            locacao = form.save(commit=False)
-            locacao.carro = carro
-            locacao.cliente = Cliente.objects.get(user=request.user)
-            locacao.status = 'ativo'
-            locacao.save()
+            with transaction.atomic(): 
+                locacao = form.save(commit=False)
+                locacao.carro = carro
+                locacao.cliente = Cliente.objects.get(user=request.user)
+                locacao.status = 'ativo' 
+                locacao.save()
 
-            carro.disponibilidade = False
-            carro.save()
+                carro.disponibilidade = False
+                carro.save()
 
-            messages.success(request, 'Carro alugado com sucesso!')
-            return redirect('listar_locacoes')
+                messages.success(request, 'Carro alugado com sucesso! Agora, finalize o pagamento.')
+                return redirect('realizar_pagamento', locacao_id=locacao.id)
+        else:
+            context = {
+                'carro': carro,
+                'form': form, 
+            }
+            return render(request, 'carro_detalhes.html', context)
     else:
-        form = LocacaoForm(initial={'carro': carro})
+        form = LocacaoForm() 
 
     context = {
         'carro': carro,
@@ -94,12 +103,47 @@ def alugar_carro(request):
             locacao.carro.disponibilidade = False
             locacao.carro.save()
             messages.success(request, 'Carro alugado com sucesso!')
-            return redirect('listar_locacoes')
+
+            return redirect('listar_locacoes') 
     else:
         form = LocacaoForm()
     
     return render(request, 'alugar_carro.html', {'form': form})
 
+@login_required
+def realizar_pagamento(request, locacao_id):
+    locacao = get_object_or_404(Locacao, id=locacao_id)
+
+    if Pagamento.objects.filter(locacao=locacao).exists(): 
+        messages.info(request, 'Esta locação já foi paga.')
+        return redirect('listar_locacoes') 
+
+    if request.method == 'POST':
+        form = PagamentoForm(request.POST)
+        if form.is_valid():
+            with transaction.atomic(): 
+                pagamento = form.save(commit=False)
+                pagamento.locacao = locacao
+                pagamento.data_pagamento = date.today()
+                pagamento.valor_pago = locacao.valor_total 
+                pagamento.status_pagamento = 'pago'
+
+                pagamento.save()
+
+                messages.success(request, 'Pagamento realizado com sucesso!')
+                return redirect('listar_locacoes')
+        else:
+            messages.error(request, 'Erro ao processar o pagamento. Verifique os dados.')
+    else:
+        form = PagamentoForm()
+
+    context = {
+        'locacao': locacao,
+        'form': form,
+        'valor_a_pagar': locacao.valor_total, 
+    }
+    return render(request, 'realizar_pagamento.html', context)
+
 def logout(request):
     logout_django(request)
-    return redirect('login')  # Ou HttpResponse se quiser mostrar mensagem
+    return redirect('login')
